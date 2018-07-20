@@ -7,6 +7,7 @@ export default class CSVReader {
             Papa.parse(file, {
                 delimiter: '\t',
                 download: true,
+                skipEmptyLines: true,
                 complete: (results) => {
                     if (!isEmpty(results.errors)) {
                         return reject(results);

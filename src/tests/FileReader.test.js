@@ -6,10 +6,10 @@ it('read file without crashing', (done) => {
     const file = fs.createReadStream('src/tests/files/simple_day.csv');
 
     csvreader.read(file)
-    .then((rows) => {
-        expect(rows).not.toBeNull();
-        expect(rows.errors).toEqual([]);
-        expect(rows.data).not.toEqual([]);
+    .then((result) => {
+        expect(result).not.toBeNull();
+        expect(result.errors).toEqual([]);
+        expect(result.data).not.toEqual([]);
         done();
     })
     .catch((error) => {
