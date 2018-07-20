@@ -1,8 +1,9 @@
 import Papa from 'papaparse';
-import { isEmpty } from 'lodash';
+import { isEmpty, slice } from 'lodash';
 
 export default class CSVReader {
-    read(file) {
+    read(file, config = {}) {
+
         return new Promise((resolve, reject) => {
             Papa.parse(file, {
                 delimiter: '\t',
@@ -13,11 +14,16 @@ export default class CSVReader {
                         return reject(results);
                     }
 
+                    // get one dimentional array containing rows
+                    // remove the header
+                    results.data = slice(results.data, 1);
+
                     return resolve(results);
                 },
                 error: (error) => {
                     reject(error);
                 },
+                ...config,
             });
         });
     }
