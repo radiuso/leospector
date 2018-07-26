@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import UploadForm from '../../molecules/UploadForm';
+import LeoParser from '../../../helpers/LeoParser';
+import CSVReader from '../../../helpers/CSVReader';
 
 class UploadZone extends Component {
+    constructor(props) {
+        super(props);
+
+        this.parser = new LeoParser();
+        this.csvReader = new CSVReader();
+    }
+
     handleFileChange(file) {
-        console.log(file);
+        this.csvReader.read(file)
+        .then((result) => {
+            return this.parser.parse(result.data);
+        })
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     }
 
     render() {

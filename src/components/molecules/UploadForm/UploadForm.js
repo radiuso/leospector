@@ -5,7 +5,7 @@ class UploadForm extends Component {
         const { onChange } = this.props;
 
         if (typeof onChange === 'function') {
-            onChange(event.target.value);
+            onChange(event.target.files[0]);
         }
     }
 
