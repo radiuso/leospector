@@ -1,9 +1,10 @@
-import { map, isFunction } from 'lodash';
+import { map, isFunction, uniqueId } from 'lodash';
 import { toDecimal, toInt, toDate } from './ValueParser';
 
 export default class LeoParser {
     constructor() {
         this.columns = {
+            id: { parser: uniqueId },
             date: { col: 0, parser: toDate },
             hour: { col: 1, },
             till_number: { col: 2, parser: toInt },
@@ -22,13 +23,18 @@ export default class LeoParser {
     parse(data) {
         return map(data, (row) => {
             const obj = {};
-            Object.keys(this.columns).forEach((key) => {
+            Object.keys(this.columns).forEach((key, index) => {
                 const column = this.columns[key];
-                let val = row[column.col];
+                let val = '';
+
+                if (column.col >= 0) {
+                    val = row[column.col];
+                }
 
                 if (isFunction(column.parser)) {
                     val = column.parser(val);
                 }
+
                 obj[key] = val;
             });
 

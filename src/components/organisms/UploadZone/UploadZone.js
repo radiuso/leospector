@@ -12,12 +12,16 @@ class UploadZone extends Component {
     }
 
     handleFileChange(file) {
+        const { onChange } = this.props;
+
         this.csvReader.read(file)
         .then((result) => {
             return this.parser.parse(result.data);
         })
         .then((result) => {
-            console.log(result);
+            if (typeof onChange === 'function') {
+                onChange(result);
+            }
         })
         .catch((error) => {
             console.error(error);
